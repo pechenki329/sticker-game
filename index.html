@@ -16,19 +16,39 @@
         }
         h1 { font-size: 24px; margin-bottom: 30px; }
         .emoji { font-size: 100px; margin: 30px; animation: bounce 1s infinite; }
-        @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
+        @keyframes bounce { 
+            0%, 100% { transform: translateY(0); } 
+            50% { transform: translateY(-20px); } 
+        }
         .stickers { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
         .sticker {
-            width: 100px; height: 100px; cursor: pointer;
-            border: 4px solid white; border-radius: 15px;
+            width: 100px;
+            height: 100px;
+            cursor: pointer;
+            border: 4px solid white;
+            border-radius: 15px;
             transition: all 0.3s;
         }
-        .sticker:hover { transform: scale(1.1); border-color: gold; }
-        .message { font-size: 24px; margin: 20px; padding: 15px; border-radius: 10px; }
+        .sticker:hover { 
+            transform: scale(1.1); 
+            border-color: gold; 
+        }
+        .message { 
+            font-size: 24px; 
+            margin: 20px; 
+            padding: 15px; 
+            border-radius: 10px; 
+        }
         button {
-            background: gold; color: #333; border: none;
-            padding: 15px 30px; font-size: 18px; border-radius: 25px;
-            cursor: pointer; font-weight: bold; margin-top: 20px;
+            background: gold;
+            color: #333;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -40,6 +60,10 @@
     <button onclick="newRound()">🎲 Следующий раунд</button>
 
     <script>
+        // Принудительная инициализация Telegram
+        window.TelegramWebviewProxy = { postEvent: function() {} };
+        window.Telegram = { WebView: { initParams: {} } };
+        
         let tg = Telegram.WebApp;
         tg.expand();
         
@@ -53,7 +77,6 @@
         
         const emojis = Object.keys(gameData);
         let currentCorrectSticker = gameData['😊'];
-        let score = 0;
         
         function newRound() {
             // Выбираем случайный эмодзи
@@ -88,12 +111,11 @@
         
         function checkSticker(selectedSticker) {
             if (selectedSticker === currentCorrectSticker) {
-                score++;
-                document.getElementById('message').innerHTML = '✅ ПРАВИЛЬНО! +1 очко';
+                document.getElementById('message').innerHTML = '✅ ПРАВИЛЬНО!';
                 document.getElementById('message').style.color = '#4caf50';
-                tg.sendData(JSON.stringify({result: 'win', score: score}));
-              } else {
-                document.getElementById('message').innerHTML = '❌ НЕПРАВИЛЬНО! Попробуй другой';
+                tg.sendData(JSON.stringify({result: 'win'}));
+            } else {
+                document.getElementById('message').innerHTML = '❌ НЕПРАВИЛЬНО!';
                 document.getElementById('message').style.color = '#f44336';
             }
         }
