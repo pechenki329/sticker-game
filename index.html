@@ -93,35 +93,6 @@
             const stickersDiv = document.getElementById('stickers');
             stickersDiv.innerHTML = '';
             
-            // Получаем все стикеры
-            const allStickers = Object.values(gameData);
-            
-            // Перемешиваем
-            const shuffled = [...allStickers].sort(() => Math.random() - 0.5);
-            
-            // Показываем первые 3
-            shuffled.slice(0, 3).forEach(sticker => {
-                const img = document.createElement('img');
-                img.src = sticker;
-                img.className = 'sticker';
-                img.onclick = () => checkSticker(sticker);
-                stickersDiv.appendChild(img);
-            });
-        }
-        
-        function checkSticker(selectedSticker) {
-            if (selectedSticker === currentCorrectSticker) {
-                document.getElementById('message').innerHTML = '✅ ПРАВИЛЬНО!';
-                document.getElementById('message').style.color = '#4caf50';
-                tg.sendData(JSON.stringify({result: 'win'}));
-            } else {
-                document.getElementById('message').innerHTML = '❌ НЕПРАВИЛЬНО!';
-                document.getElementById('message').style.color = '#f44336';
-            }
-        }
-        
-        // Запускаем первый раунд
-        newRound();
-    </script>
+
 </body>
 </html>
